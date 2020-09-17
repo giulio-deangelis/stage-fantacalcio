@@ -1,0 +1,114 @@
+<mvc:View controllerName="training.fantacalcio.controller.Main" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m"
+	xmlns:u="sap.ui.unified">
+	<Shell id="shell" appWidthLimited="false">
+		<App id="app">
+			<pages>
+				<SplitApp id="splitter" initialDetail="welcome">
+					<masterPages>
+						<Page id="master">
+							<customHeader>
+								<Bar>
+									<contentLeft>
+										<Button press="onHome" type="Back" id="homeButton" visible="false"/>
+										<Button text="{i18n>fantasquadre}" press="onFantasquadre" type="Emphasized" id="fantaButton"/>
+										<u:FileUploader change="onUpload" id="uploader" class="hidden"/>
+									</contentLeft>
+									<contentRight>
+										<Button press="onFileBrowse" icon="sap-icon://upload" type="Accept"/>
+										<Button press="onReset" icon="sap-icon://delete" type="Reject"/>
+									</contentRight>
+								</Bar>
+							</customHeader>
+							<content>
+								<List items="{/Squadra}" itemPress="onSquadraSelected" growing="true" growingScrollToLoad="true" noDataText=" " id="squadreList">
+									<items>
+										<StandardListItem title="{Nome}" type="Navigation" icon="{path: 'Logo', formatter: '.formatter.getLogoOrDefault'}"/>
+									</items>
+								</List>
+							</content>
+						</Page>
+					</masterPages>
+					<detailPages>
+						<Page id="welcome">
+							<VBox class="padded-detail vertical-spacing">
+								<Title text="{i18n>welcomeTitle}"/>
+								<Text text="{i18n>welcomeText}"/>
+							</VBox>
+						</Page>
+						<Page id="detail">
+							<content>
+								<VBox class="vertical-spacing">
+									<FlexBox alignItems="Center" justifyContent="Start" class="squadra" id="squadraHeader">
+										<Button press="onEditLogo" icon="sap-icon://edit" type="Transparent" class="edit-button"/>
+										<Image src="{path: 'Logo', formatter: '.formatter.getLogoOrDefault'}" press="onEditLogo" id="logoImg" class="logo"/>
+										<Title text="{Nome}" id="squadraTitle" class="title"/>
+									</FlexBox>
+									<IconTabBar select="onFilter" expandable="false" headerBackgroundDesign="Transparent" id="tabBar">
+										<items>
+											<IconTabFilter key="all" showAll="true" text="{i18n>all}" iconColor="Neutral"/>
+											<IconTabFilter key="p" text="{i18n>portieri}" icon="sap-icon://personnel-view" iconColor="Positive"/>
+											<IconTabFilter key="d" text="{i18n>difensori}" icon="sap-icon://shield"/>
+											<IconTabFilter key="c" text="{i18n>centrocampisti}" icon="sap-icon://physical-activity" iconColor="Contrast"/>
+											<IconTabFilter key="a" text="{i18n>attaccanti}" icon="sap-icon://drill-down" iconColor="Negative"/>
+										</items>
+										<content>
+											<Table items="{Giocatori}" updateFinished="onTableUpdate" growing="true" growingScrollToLoad="true" noDataText=" " id="giocatoriTable">
+												<headerToolbar>
+													<OverflowToolbar>
+														<ToolbarSpacer/>
+													</OverflowToolbar>
+												</headerToolbar>
+												<items>
+													<ColumnListItem type="Active" id="columns">
+														<cells>
+															<Text text="{Ruolo}"/>
+															<Text text="{Nome}"/>
+															<Text text="{Quot_iniziale}"/>
+															<FlexBox alignItems="Center" class="qt-att">
+																<Input value="{Quot_attuale}" submit="onSaveQtAtt" editable="false" type="Number"/>
+																<Button press="onEditQtAtt" icon="sap-icon://edit" type="Transparent" class="edit-button"/>
+																<Button press="onSaveQtAtt" icon="sap-icon://save" type="Ghost" visible="false"/>
+															</FlexBox>
+															<Text text=""/>
+														</cells>
+													</ColumnListItem>
+												</items>
+												<columns>
+													<Column id="column0">
+														<header>
+															<Label text="{i18n>ruolo}" id="label0"/>
+														</header>
+													</Column>
+													<Column id="column1">
+														<header>
+															<Label text="{i18n>nome}" id="label1"/>
+														</header>
+													</Column>
+													<Column id="column2">
+														<header>
+															<Label text="{i18n>qtIniz}" id="label2"/>
+														</header>
+													</Column>
+													<Column id="column3">
+														<header>
+															<Label text="{i18n>qtAtt}" id="label3"/>
+														</header>
+													</Column>
+													<Column id="column4">
+														<header>
+															<Label text="{i18n>differenza}" id="label4"/>
+														</header>
+													</Column>
+												</columns>
+											</Table>
+										</content>
+									</IconTabBar>
+								</VBox>
+							</content>
+						</Page>
+					</detailPages>
+				</SplitApp>
+			</pages>
+		</App>
+	</Shell>
+</mvc:View>

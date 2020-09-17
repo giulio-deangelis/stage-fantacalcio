@@ -1,0 +1,90 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" editable="true"
+	layout="ResponsiveGridLayout" id="fantaEditorFragment">
+	<Dialog id="fantaEditorDialog" title="{i18n>newSquadra}" contentWidth="50%">
+		<content>
+			<VBox class="fanta-form">
+				<f:SimpleForm width="100%" layout="ResponsiveGridLayout">
+					<f:content>
+						<Label text="{i18n>id}" required="true"/>
+						<Input value="{/id}" valueState="{/idState}">
+							<layoutData>
+								<l:GridData span="L4 M4 S4"/>
+							</layoutData>
+						</Input>
+						<Label text="{i18n>name}" required="true"/>
+						<Input value="{/nome}" valueState="{/nomeState}">
+							<layoutData>
+								<l:GridData span="L5 M5 S5"/>
+							</layoutData>
+						</Input>
+						<Label text="{i18n>presidente}" required="true"/>
+						<Input value="{/presidente}" valueState="{/presidenteState}">
+							<layoutData>
+								<l:GridData span="L5 M5 S5"/>
+							</layoutData>
+						</Input>
+						<Label text="{i18n>logo}"/>
+						<Input value="{/logo}">
+							<layoutData>
+								<l:GridData span="L9 M9 S9"/>
+							</layoutData>
+						</Input>
+					</f:content>
+				</f:SimpleForm>
+				<VBox class="fanta-info">
+					<HBox id="budgetBox" class="budget-box" justifyContent="Center">
+						<Title text="{i18n>budget}:"/>
+						<Label text="{path: '/total', formatter: '.formatTotalBudget'}" class="total-budget" id="totalBudget"/>
+						<Label text="/" class="budget-separator"/>
+						<Label text="{/budget}" class="available-budget"/>
+					</HBox>
+					<HBox id="fantaBoxes" class="fanta-boxes">
+						<VBox id="portieriBox" class="fanta-section">
+							<Title text="{i18n>portieri}" textAlign="Center" width="100%"/>
+							<ComboBox id="combo-p1"/>
+							<ComboBox id="combo-p2"/>
+							<ComboBox id="combo-p3"/>
+						</VBox>
+						<VBox id="difensoriBox" class="fanta-section">
+							<Title text="{i18n>difensori}" textAlign="Center" width="100%"/>
+							<ComboBox id="combo-d1"/>
+							<ComboBox id="combo-d2"/>
+							<ComboBox id="combo-d3"/>
+							<ComboBox id="combo-d4"/>
+							<ComboBox id="combo-d5"/>
+							<ComboBox id="combo-d6"/>
+							<ComboBox id="combo-d7"/>
+							<ComboBox id="combo-d8"/>
+						</VBox>
+						<VBox id="centrocampistiBox" class="fanta-section">
+							<Title text="{i18n>centrocampisti}" textAlign="Center" width="100%"/>
+							<ComboBox id="combo-c1"/>
+							<ComboBox id="combo-c2"/>
+							<ComboBox id="combo-c3"/>
+							<ComboBox id="combo-c4"/>
+							<ComboBox id="combo-c5"/>
+							<ComboBox id="combo-c6"/>
+							<ComboBox id="combo-c7"/>
+							<ComboBox id="combo-c8"/>
+						</VBox>
+						<VBox id="attaccantiBox" class="fanta-section">
+							<Title text="{i18n>attaccanti}" textAlign="Center" width="100%"/>
+							<ComboBox id="combo-a1"/>
+							<ComboBox id="combo-a2"/>
+							<ComboBox id="combo-a3"/>
+							<ComboBox id="combo-a4"/>
+							<ComboBox id="combo-a5"/>
+							<ComboBox id="combo-a6"/>
+						</VBox>
+					</HBox>
+				</VBox>
+			</VBox>
+		</content>
+		<beginButton>
+			<Button text="{i18n>save}" press="onFantaSave" icon="sap-icon://save" iconFirst="false" type="Emphasized" id="fantaNextButton"/>
+		</beginButton>
+		<endButton>
+			<Button text="{i18n>cancel}" press="onFantaCancel" icon="sap-icon://decline"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

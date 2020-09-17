@@ -1,0 +1,16 @@
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+	<edmx:DataServices xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:DataServiceVersion="2.0">
+		<Schema Namespace="fantacalcio.fantacalcio" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
+			xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+			<EntityType Name="SquadraType">
+				<Key><PropertyRef Name="Nome"/></Key><Property Name="Nome" Type="Edm.String" Nullable="false" MaxLength="50"/><Property Name="Logo" Type="Edm.String" MaxLength="1024"/><NavigationProperty Name="Giocatori" Relationship="fantacalcio.fantacalcio.GiocatoriType" FromRole="SquadraPrincipal"
+					ToRole="GiocatoreDependent"/></EntityType>
+			<EntityType Name="GiocatoreType">
+				<Key><PropertyRef Name="Id"/></Key><Property Name="Id" Type="Edm.Int32" Nullable="false"/><Property Name="Ruolo" Type="Edm.String" Nullable="false" MaxLength="1"/><Property Name="Nome" Type="Edm.String" Nullable="false" MaxLength="100"/><Property Name="Squadra" Type="Edm.String" Nullable="false" MaxLength="50"/><Property Name="Quot_iniziale" Type="Edm.Int32" Nullable="false"/><Property Name="Quot_attuale" Type="Edm.Int32" Nullable="false"/></EntityType>
+			<Association Name="GiocatoriType"><End Type="fantacalcio.fantacalcio.SquadraType" Role="SquadraPrincipal" Multiplicity="1"/><End Type="fantacalcio.fantacalcio.GiocatoreType" Role="GiocatoreDependent" Multiplicity="*"/></Association>
+			<EntityContainer Name="fantacalcio" m:IsDefaultEntityContainer="true"><EntitySet Name="Squadra" EntityType="fantacalcio.fantacalcio.SquadraType"/><EntitySet Name="Giocatore" EntityType="fantacalcio.fantacalcio.GiocatoreType"/>
+				<AssociationSet Name="Giocatori" Association="fantacalcio.fantacalcio.GiocatoriType"><End Role="SquadraPrincipal" EntitySet="Squadra"/><End Role="GiocatoreDependent" EntitySet="Giocatore"/></AssociationSet>
+			</EntityContainer>
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

@@ -1,0 +1,92 @@
+.positive {
+    color: green !important;
+}
+
+.negative {
+    color: red !important;
+}
+
+.padded-detail {
+    padding: 2rem;
+}
+
+.vertical-spacing > * {
+    margin-bottom: .5rem;
+}
+
+.logo {
+    width: auto;
+    height: auto;
+    max-width: 5rem;
+    max-height: 5rem;
+    background-size: cover;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.squadra {
+    padding: 2rem;
+}
+
+.squadra > :not(:last-child) {
+    margin-right: .5rem;
+}
+
+.edit-button {
+    opacity: .5;
+}
+
+.qt-att > *:not(:last-child) {
+    margin-right: .3rem;
+}
+
+.hidden {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.hidden * {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.fanta-boxes > *:not(:last-child) {
+    margin-right: 2rem;
+}
+
+.fanta-section > *:not(:last-child):not(:first-child) {
+    margin-bottom: 1rem;
+}
+
+.fanta-info > * {
+    margin-top: 1rem;
+}
+
+.budget-box > *:not(:last-child) {
+    margin-right: 1rem;
+}
+
+.fanta-form {
+    padding: 1.5rem;
+}
+
+.fanta-form > *:not(:last-child) {
+    margin-bottom: 2rem;
+}
+
+.sapMInputBaseReadonlyWrapper {
+    border-color: transparent !important;
+}
+
+.sapMSLIImg {
+    width: auto !important;
+    height: auto !important;
+    max-width: 3rem !important;
+    max-height: 3rem !important;
+    background-size: cover !important;
+}

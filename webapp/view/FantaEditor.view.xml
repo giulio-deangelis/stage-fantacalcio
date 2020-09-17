@@ -1,0 +1,92 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout"
+	controllerName="training.fantacalcio.controller.FantaEditor">
+	<App>
+		<pages>
+			<NavContainer>
+				<Page>
+					<Wizard id="wizard" finishButtonText="{i18n>save}" complete="onSave">
+						<WizardStep title="{i18n>fantaWizard1}" validated="false" id="step1">
+							<f:SimpleForm width="100%" layout="ResponsiveGridLayout">
+								<f:content>
+									<Label text="{i18n>id}" required="true"/>
+									<Input value="{/id}" liveChange="validateStep1" id="idInput">
+										<layoutData>
+											<l:GridData span="L4 M4 S4"/>
+										</layoutData>
+									</Input>
+									<Label text="{i18n>name}" required="true"/>
+									<Input value="{/nome}" liveChange="validateStep1" id="nomeInput">
+										<layoutData>
+											<l:GridData span="L5 M5 S5"/>
+										</layoutData>
+									</Input>
+									<Label text="{i18n>presidente}" required="true"/>
+									<Input value="{/presidente}" liveChange="validateStep1" id="presidenteInput">
+										<layoutData>
+											<l:GridData span="L5 M5 S5"/>
+										</layoutData>
+									</Input>
+									<Label text="{i18n>logo}"/>
+									<Input value="{/logo}">
+										<layoutData>
+											<l:GridData span="L9 M9 S9"/>
+										</layoutData>
+									</Input>
+								</f:content>
+							</f:SimpleForm>
+						</WizardStep>
+						<WizardStep title="{i18n>fantaWizard2}" validated="true" id="step2">
+							<VBox class="fanta-info" alignItems="Center" justifyContent="Center">
+								<HBox id="budgetBox" class="budget-box" justifyContent="Center">
+									<Title text="{i18n>budget}:"/>
+									<Label text="{path: '/total', formatter: '.formatTotalBudget'}" class="total-budget" id="totalBudget"/>
+									<Label text="/" class="budget-separator"/>
+									<Label text="{/budget}" class="available-budget"/>
+								</HBox>
+								<HBox id="gBoxes" class="fanta-boxes">
+									<VBox id="portieriBox" class="fanta-section">
+										<Title text="{i18n>portieri}" textAlign="Center" width="100%"/>
+										<ComboBox id="combo-p1"/>
+										<ComboBox id="combo-p2"/>
+										<ComboBox id="combo-p3"/>
+									</VBox>
+									<VBox id="difensoriBox" class="fanta-section">
+										<Title text="{i18n>difensori}" textAlign="Center" width="100%"/>
+										<ComboBox id="combo-d1"/>
+										<ComboBox id="combo-d2"/>
+										<ComboBox id="combo-d3"/>
+										<ComboBox id="combo-d4"/>
+										<ComboBox id="combo-d5"/>
+										<ComboBox id="combo-d6"/>
+										<ComboBox id="combo-d7"/>
+										<ComboBox id="combo-d8"/>
+									</VBox>
+									<VBox id="centrocampistiBox" class="fanta-section">
+										<Title text="{i18n>centrocampisti}" textAlign="Center" width="100%"/>
+										<ComboBox id="combo-c1"/>
+										<ComboBox id="combo-c2"/>
+										<ComboBox id="combo-c3"/>
+										<ComboBox id="combo-c4"/>
+										<ComboBox id="combo-c5"/>
+										<ComboBox id="combo-c6"/>
+										<ComboBox id="combo-c7"/>
+										<ComboBox id="combo-c8"/>
+									</VBox>
+									<VBox id="attaccantiBox" class="fanta-section">
+										<Title text="{i18n>attaccanti}" textAlign="Center" width="100%"/>
+										<ComboBox id="combo-a1"/>
+										<ComboBox id="combo-a2"/>
+										<ComboBox id="combo-a3"/>
+										<ComboBox id="combo-a4"/>
+										<ComboBox id="combo-a5"/>
+										<ComboBox id="combo-a6"/>
+									</VBox>
+								</HBox>
+							</VBox>
+						</WizardStep>
+					</Wizard>
+				</Page>
+			</NavContainer>
+		</pages>
+	</App>
+</mvc:View>
