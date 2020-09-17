@@ -8,105 +8,105 @@
 */
 
 sap.ui.define([
-	'sap/ui/core/mvc/Controller',
-	'sap/ui/model/json/JSONModel',
-	'sap/ui/model/Filter',
-	'sap/ui/model/Sorter',
-	'sap/ui/core/ListItem',
-	'sap/ui/core/BusyIndicator',
-	'../util/MessageHelper',
+    'sap/ui/core/mvc/Controller',
+    'sap/ui/model/json/JSONModel',
+    'sap/ui/model/Filter',
+    'sap/ui/model/Sorter',
+    'sap/ui/core/ListItem',
+    'sap/ui/core/BusyIndicator',
+    '../util/MessageHelper',
     '../util/extensions/Array',
     '../util/extensions/String',
     '../util/extensions/Control'
 ], (
-	Controller,
-	JSONModel,
-	Filter,
-	Sorter,
-	ListItem,
-	BusyIndicator,
-	MessageHelper
+    Controller,
+    JSONModel,
+    Filter,
+    Sorter,
+    ListItem,
+    BusyIndicator,
+    MessageHelper
 ) => {
-	'use strict';
+    'use strict';
 
-	var model, msg, gBoxes, id;
-	const editorModel = new JSONModel();
-	const groupId = 'batch';
+    var model, msg, gBoxes, id;
+    const editorModel = new JSONModel();
+    const groupId = 'batch';
 
-	const filters = {
-		p: new Filter('Ruolo', 'EQ', 'P'),
-		d: new Filter('Ruolo', 'EQ', 'D'),
-		c: new Filter('Ruolo', 'EQ', 'C'),
-		a: new Filter('Ruolo', 'EQ', 'A')
-	};
+    const filters = {
+        p: new Filter('Ruolo', 'EQ', 'P'),
+        d: new Filter('Ruolo', 'EQ', 'D'),
+        c: new Filter('Ruolo', 'EQ', 'C'),
+        a: new Filter('Ruolo', 'EQ', 'A')
+    };
 
-	return Controller.extend('training.fantacalcio.controller.FantaEditor', {
+    return Controller.extend('training.fantacalcio.controller.FantaEditor', {
 
-		onInit: function () {
-			this.getOwnerComponent()
-				.getRouter()
-				.getRoute('FantaEditor')
-				.attachPatternMatched(this.onPatternMatch, this);
-		},
+        onInit: function () {
+            this.getOwnerComponent()
+                .getRouter()
+                .getRoute('FantaEditor')
+                .attachPatternMatched(this.onPatternMatch, this);
+        },
 
-		onBeforeRendering: function () {
-			model = this.getView().getModel('Fantacalcio');
-			msg = new MessageHelper(this);
-			this.byId('wizard').setModel(model);
-			this._loadEditor();
-		},
+        onBeforeRendering: function () {
+            model = this.getView().getModel('Fantacalcio');
+            msg = new MessageHelper(this);
+            this.byId('wizard').setModel(model);
+            this._loadEditor();
+        },
 
-		onPatternMatch: function (ev) {
-		    id = ev.getParameter('arguments').id;
-		},
-		
-		leave: function () {
-		    this.getOwnerComponent().getRouter().navTo('Fantasquadre');
-		},
-		
-		validateStep1: function () {
-		    const data = editorModel.getData();
-		    const wiz = this.byId('wizard');
-		    const step = this.byId('step1');
-		    
-		    if (String.isBlank(data.id, data.nome, data.presidente)) {
-		        wiz.invalidateStep(step);
-		        return false;
-		    }
-		    
-		    wiz.validateStep(step);
-		    return true;
-		},
-		
-		validateStep2: function () {
-		    const data = editorModel.getData();
-		    const wiz = this.byId('wizard');
-		    const step = this.byId('step2');
-		    
-		    if (data.budget - this._getTotalBudget() < 0) {
-		        wiz.invalidateStep(step);
-		        return false;
-		    }
-		    
-		    wiz.validateStep(step);
-		    return true;
-		},
-		
-		validateSteps: function () {
-		    return this.validateStep1() && this.validateStep2();
-		},
-		
-		onSave: function () {
-		    if (!this.validateSteps()) return;
-		    
+        onPatternMatch: function (ev) {
+            id = ev.getParameter('arguments').id;
+        },
+
+        leave: function () {
+            this.getOwnerComponent().getRouter().navTo('Fantasquadre');
+        },
+
+        validateStep1: function () {
+            const data = editorModel.getData();
+            const wiz = this.byId('wizard');
+            const step = this.byId('step1');
+
+            if (String.isBlank(data.id, data.nome, data.presidente)) {
+                wiz.invalidateStep(step);
+                return false;
+            }
+
+            wiz.validateStep(step);
+            return true;
+        },
+
+        validateStep2: function () {
+            const data = editorModel.getData();
+            const wiz = this.byId('wizard');
+            const step = this.byId('step2');
+
+            if (data.budget - this._getTotalBudget() < 0) {
+                wiz.invalidateStep(step);
+                return false;
+            }
+
+            wiz.validateStep(step);
+            return true;
+        },
+
+        validateSteps: function () {
+            return this.validateStep1() && this.validateStep2();
+        },
+
+        onSave: function () {
+            if (!this.validateSteps()) return;
+
             BusyIndicator.show();
-            
+
             const that = this;
             const data = editorModel.getData();
             const giocatori = data.giocatori.isEmpty()
                 ? this._getSelectedGiocatori()
                 : data.giocatori;
-            
+
             this._saveFantasquadra({
                 squadra: this._getFantaFromEditor(),
                 giocatori,
@@ -121,14 +121,14 @@ sap.ui.define([
                     BusyIndicator.hide();
                 }
             });
-		},
-		
+        },
+
         onGiocatoreSelected: function (ev) {
             const ruolo = this._getRuoloFromId(ev.getSource());
             this._applyBoxFiltersForRuolo(ruolo);
             this._updateBudget();
         },
-		
+
         formatTotalBudget: function (total) {
             const budgetLabel = this.byId('totalBudget');
             const negative = editorModel.getData().budget - total < 0;
@@ -136,67 +136,67 @@ sap.ui.define([
             budgetLabel.removeStyleClass(negative ? 'positive' : 'negative');
             return total;
         },
-		
-		_loadEditor: function () {
-		    this._prepareEditorData(this._setupBoxes.bind(this));
-		},
-		
-		_prepareEditorData: function (callback) {
-			if (id) {
-				this._fetchFanta(id, (fanta) => {
-					editorModel.setData({
-						budget: fanta.budget,
-						total: 0,
-						id,
-						nome: fanta.nome,
-						presidente: fanta.presidente,
-						logo: fanta.logo,
-						giocatori: fanta.giocatori,
-						update: true
-					});
-					callback();
-				});
-			} else {
-				editorModel.setData({
-					budget: 250,
-					total: 0,
-					id: '',
-					nome: '',
-					presidente: '',
-					logo: '',
-					giocatori: [],
-					update: false
-				});
-				callback();
-			}
-		},
 
-		_fetchFanta: function (id, success) {
-		    const path = `/Fantasquadra('${id}')`;
-		    
-			model.read(path, {groupId});
-			model.read(path + '/Giocatori', {groupId});
+        _loadEditor: function () {
+            this._prepareEditorData(this._setupBoxes.bind(this));
+        },
 
-			model.submitChanges({
-				async: true,
-				groupId,
+        _prepareEditorData: function (callback) {
+            if (id) {
+                this._fetchFanta(id, (fanta) => {
+                    editorModel.setData({
+                        budget: fanta.budget,
+                        total: 0,
+                        id,
+                        nome: fanta.nome,
+                        presidente: fanta.presidente,
+                        logo: fanta.logo,
+                        giocatori: fanta.giocatori,
+                        update: true
+                    });
+                    callback();
+                });
+            } else {
+                editorModel.setData({
+                    budget: 250,
+                    total: 0,
+                    id: '',
+                    nome: '',
+                    presidente: '',
+                    logo: '',
+                    giocatori: [],
+                    update: false
+                });
+                callback();
+            }
+        },
 
-				success: function (data) {
-					const squadra = data.__batchResponses[0].data;
-					const giocatori = data.__batchResponses[1].data.results;
-					if (success) success(squadra, giocatori);
-				},
+        _fetchFanta: function (id, success) {
+            const path = `/Fantasquadra('${id}')`;
 
-				error: function () {
-					msg.error('fantaFetchFailed');
-				}
-			});
-		},
-		
+            model.read(path, {groupId});
+            model.read(path + '/Giocatori', {groupId});
+
+            model.submitChanges({
+                async: true,
+                groupId,
+
+                success: function (data) {
+                    const squadra = data.__batchResponses[0].data;
+                    const giocatori = data.__batchResponses[1].data.results;
+                    if (success) success(squadra, giocatori);
+                },
+
+                error: function () {
+                    msg.error('fantaFetchFailed');
+                }
+            });
+        },
+
         _setupBoxes: function (onDone) {
             const giocatori = editorModel.getData().giocatori.slice();
             const squadraId = editorModel.getData().id;
-            
+
             gBoxes = this.byId('gBoxes').getChildrenMatching(/.*combo-\S\d$/);
 
             for (const box of gBoxes) {
@@ -240,7 +240,7 @@ sap.ui.define([
                 });
             }
         },
-        
+
         _applyBoxFiltersForRuolo: function (ruolo) {
             const ruoloBoxes = this._getBoxesForRuolo(ruolo);
             const giocatori = ruoloBoxes.mapNotNull(it => it.getValue());
@@ -268,7 +268,7 @@ sap.ui.define([
             for (const ruolo of ['p', 'd', 'c', 'a'])
                 this._applyBoxFiltersForRuolo(ruolo);
         },
-        
+
         _getBoxesForRuolo: function (ruolo) {
             const list = [];
             for (const box of gBoxes) {
@@ -282,12 +282,12 @@ sap.ui.define([
             const id = box.getId();
             return id.substring(id.length - 2, id.length - 1);
         },
-        
+
         _updateBudget: function () {
             editorModel.getData().total = this._getTotalBudget();
             editorModel.refresh();
         },
-        
+
         _getTotalBudget: function () {
             let total = 0;
 
@@ -310,7 +310,7 @@ sap.ui.define([
 
             return total;
         },
-        
+
         _getSelectedGiocatori: function () {
             return gBoxes.mapNotNull(box => {
                 const selected = box.getSelectedItem();
@@ -329,7 +329,7 @@ sap.ui.define([
                 Budget: data.budget - data.total
             };
         },
-        
+
         _saveFantasquadra: function (params) {
             const squadra = params.squadra;
             const giocatori = params.giocatori;
@@ -368,5 +368,5 @@ sap.ui.define([
                 }
             });
         }
-	});
+    });
 });
