@@ -106,7 +106,7 @@
 				"target": ["Fantasquadre"]
 			}, {
 				"name": "FantaEditor",
-				"pattern": "FantaEditor",
+				"pattern": "FantaEditor/:id:",
 				"titleTarget": "",
 				"greedy": false,
 				"target": ["FantaEditor"]

@@ -2,6 +2,7 @@
 /* eslint 
     no-unused-vars: 1,
     no-warning-comments: 1, 
+    no-shadow: 0,
     no-console: 0,
     quotes: 0, 
     curly: 0,
@@ -52,7 +53,7 @@ sap.ui.define([
         onBeforeRendering: function () {
             model = this.getView().getModel('Fantacalcio');
             msg = new MessageHelper(this);
-            this.byId('wizard').setModel(model);
+            this.byId('wizard').setModel(editorModel);
             this._loadEditor();
         },
 
@@ -65,11 +66,13 @@ sap.ui.define([
         },
 
         validateStep1: function () {
-            const data = editorModel.getData();
             const wiz = this.byId('wizard');
             const step = this.byId('step1');
-
-            if (String.isBlank(data.id, data.nome, data.presidente)) {
+            const id = this.byId('idInput').getValue();
+            const nome = this.byId('nomeInput').getValue();
+            const presidente = this.byId('presidenteInput').getValue();
+            
+            if (String.isBlank(id, nome, presidente)) {
                 wiz.invalidateStep(step);
                 return false;
             }
@@ -138,22 +141,27 @@ sap.ui.define([
         },
 
         _loadEditor: function () {
-            this._prepareEditorData(this._setupBoxes.bind(this));
+            const that = this;
+            this._prepareEditorData(() => {
+                that._setupBoxes();
+                if (id) that.validateStep1();
+            });
         },
 
         _prepareEditorData: function (callback) {
             if (id) {
-                this._fetchFanta(id, (fanta) => {
+                this._fetchFanta((squadra, giocatori) => {
                     editorModel.setData({
-                        budget: fanta.budget,
+                        budget: squadra.Budget,
                         total: 0,
                         id,
-                        nome: fanta.nome,
-                        presidente: fanta.presidente,
-                        logo: fanta.logo,
-                        giocatori: fanta.giocatori,
+                        nome: squadra.Nome,
+                        presidente: squadra.Presidente,
+                        logo: squadra.Logo,
+                        giocatori: giocatori,
                         update: true
                     });
+                    editorModel.refresh();
                     callback();
                 });
             } else {
@@ -167,11 +175,12 @@ sap.ui.define([
                     giocatori: [],
                     update: false
                 });
+                editorModel.refresh();
                 callback();
             }
         },
 
-        _fetchFanta: function (id, success) {
+        _fetchFanta: function (success) {
             const path = `/Fantasquadra('${id}')`;
 
             model.read(path, {groupId});

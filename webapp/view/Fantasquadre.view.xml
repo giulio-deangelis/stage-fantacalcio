@@ -39,6 +39,7 @@
 								<Bar>
 									<contentRight>
 										<Button text="{i18n>edit}" press="onEdit" type="Emphasized" icon="sap-icon://edit"/>
+										<Button text="{i18n>edit} V2" press="onEditV2" type="Emphasized" icon="sap-icon://edit"/>
 										<Button text="{i18n>delete}" press="onDelete" type="Reject" icon="sap-icon://delete"/>
 									</contentRight>
 								</Bar>

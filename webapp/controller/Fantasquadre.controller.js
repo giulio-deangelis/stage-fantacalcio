@@ -7,8 +7,6 @@
     curly: 0,
 */
 
-const dbg = {};
-
 sap.ui.define([
     'sap/ui/core/mvc/Controller',
     'sap/ui/model/json/JSONModel',
@@ -37,7 +35,7 @@ sap.ui.define([
 
     var model;
     var fragmentManager, msg;
-    var gBoxes, currentFantaPath;
+    var gBoxes, currentFantaPath, currentFantaId;
     const editorFragment = 'training.fantacalcio.view.fragment.FantaEditor';
     const groupId = 'batch';
 
@@ -96,6 +94,12 @@ sap.ui.define([
                 error: () => msg.error('fantaReadFailed')
             });
         },
+        
+        onEditV2: function () {
+            this.getOwnerComponent().getRouter().navTo('FantaEditor', {
+                id: currentFantaId
+            });
+        },
 
         onDelete: function () {
             const that = this;
@@ -138,6 +142,7 @@ sap.ui.define([
             this.byId('detailForm').bindElement(path);
             this.navTo('detail');
 
+            currentFantaId = ctx.getObject().Id;
             currentFantaPath = path;
         },
 
