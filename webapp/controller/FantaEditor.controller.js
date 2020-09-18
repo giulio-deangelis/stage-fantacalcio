@@ -50,19 +50,26 @@ sap.ui.define([
                 .attachPatternMatched(this.onPatternMatch, this);
         },
 
-        onBeforeRendering: function () {
-            model = this.getView().getModel('Fantacalcio');
-            msg = new MessageHelper(this);
-            this.byId('wizard').setModel(editorModel);
-            this._loadEditor();
-        },
-
         onPatternMatch: function (ev) {
             id = ev.getParameter('arguments').id;
+            model = this.getView().getModel('Fantacalcio');
+            msg = new MessageHelper(this);
+                        
+            const wiz = this.byId('wizard');
+            const step1 = wiz.getSteps()[0];
+            wiz.discardProgress(step1);
+            wiz.goToStep(step1);
+            step1.setValidated(false);
+            wiz.setModel(editorModel);
+            
+            this._loadEditor();
         },
 
         leave: function () {
             this.getOwnerComponent().getRouter().navTo('Fantasquadre');
+            gBoxes.forEach(it => it.setValue(null));
+            gBoxes.clear();
+            editorModel.setData({});
         },
 
         validateStep1: function () {
@@ -181,7 +188,7 @@ sap.ui.define([
         },
 
         _fetchFanta: function (success) {
-            const path = `/Fantasquadra('${id}')`;
+            const path = encodeURI(`/Fantasquadra('${id}')`);
 
             model.read(path, {groupId});
             model.read(path + '/Giocatori', {groupId});
@@ -204,8 +211,6 @@ sap.ui.define([
 
         _setupBoxes: function (onDone) {
             const giocatori = editorModel.getData().giocatori.slice();
-            const squadraId = editorModel.getData().id;
-
             gBoxes = this.byId('gBoxes').getChildrenMatching(/.*combo-\S\d$/);
 
             for (const box of gBoxes) {
@@ -219,8 +224,7 @@ sap.ui.define([
                     new Filter('Fantasquadra', 'EQ', null)
                 ];
 
-                if (squadraId)
-                    boxFilters.push(new Filter('Fantasquadra', 'EQ', squadraId));
+                if (id) boxFilters.push(new Filter('Fantasquadra', 'EQ', id));
 
                 box.bindItems({
                     path: '/Giocatore',

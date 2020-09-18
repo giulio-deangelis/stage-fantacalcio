@@ -3,7 +3,7 @@
 	<App>
 		<pages>
 			<NavContainer>
-				<Page>
+				<Page showNavButton="true" navButtonPress="leave">
 					<Wizard id="wizard" finishButtonText="{i18n>save}" complete="onSave">
 						<WizardStep title="{i18n>fantaWizard1}" validated="false" id="step1">
 							<f:SimpleForm width="100%" layout="ResponsiveGridLayout">

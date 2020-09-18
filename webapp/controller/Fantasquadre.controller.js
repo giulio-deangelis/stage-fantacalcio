@@ -397,8 +397,10 @@ sap.ui.define([
         },
 
         _fetchCurrentFanta: function (callbacks) {
-            model.read(currentFantaPath, {groupId});
-            model.read(currentFantaPath + '/Giocatori', {groupId});
+            const path = encodeURI(currentFantaPath);
+            
+            model.read(path, {groupId});
+            model.read(path + '/Giocatori', {groupId});
 
             model.submitChanges({
                 async: true,
